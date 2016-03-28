@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'omniauth-sandstorm'
-  s.version = File.read('lib/omniauth-sandstorm/version.rb')[/VERSION = "(.*)"/, 1]
+  s.version = File.read('lib/omniauth-sandstorm/version.rb')[/VERSION = '(.*)'/, 1]
   s.authors = ['Steven Dee']
   s.email = ['steve@smartercode.net']
   s.homepage = 'https://github.com/mrdomino/omniauth-sandstorm'
