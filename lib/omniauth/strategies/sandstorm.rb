@@ -1,4 +1,5 @@
 require 'omniauth'
+require 'uri'
 
 module OmniAuth
   module Strategies
@@ -8,43 +9,50 @@ module OmniAuth
       option :name, 'sandstorm'
 
       def request_phase
-        # Do nothing?
+        redirect callback_path
+      end
+
+      def sandstorm_header(field)
+        raw_header = request.env["HTTP_X_SANDSTORM_#{field.to_s.upcase}"]
+        if field == :username
+          URI.unescape(raw_header).force_encoding(Encoding::UTF_8)
+        else
+          raw_header.nil? ? nil : raw_header.encode(Encoding::UTF_8)
+        end
       end
 
       uid do
-        request.headers['X-Sandstorm-User-Id']
+        sandstorm_header :user_id
       end
 
       info do
-        pronoun = case request.headers['X-Sandstorm-User-Pronouns']
-                  when 'male'
-                    'he'
-                  when 'female'
-                    'she'
-                  when 'robot'
-                    'it'
-                  else
-                    'they'
-                  end
+        pronouns = case sandstorm_header :user_pronouns
+                   when 'male'
+                     'he'
+                   when 'female'
+                     'she'
+                   when 'robot'
+                     'it'
+                   else
+                     'they'
+                   end
         {
-          name: request.headers['X-Sandstorm-Username'],
-          nickname: request.headers['X-Sandstorm-Preferred-Handle'],
-          image: request.headers['X-Sandstorm-User-Picture'],
+          name: sandstorm_header(:username),
+          nickname: sandstorm_header(:preferred_handle),
+          image: sandstorm_header(:user_picture),
           urls: {
-            'User Pronouns': "https://pronoun.is/#{pronoun}"
+            'User Pronouns': "https://pronoun.is/#{pronouns}",
           },
         }
       end
 
       extra do
         # Fields from https://docs.sandstorm.io/en/latest/developing/auth/
-        %w(
+        %i(
           username user_id tab_id permissions preferred_handle user_picture
           user_pronouns
         ).inject({}) do |hash, field|
-          header_name = 'X-Sandstorm-' +
-            field.to_s.split('_').map(&:capitalize).join('-')
-          hash[field] = request.headers[header_name]
+          hash[field] = sandstorm_header field
           hash
         end
       end
