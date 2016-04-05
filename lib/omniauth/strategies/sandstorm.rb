@@ -36,11 +36,7 @@ module OmniAuth
       end
 
       uid do
-        sandstorm_header(:user_id) || anon_uid
-      end
-
-      def anon_uid
-        @anon_uid ||= "anon-#{SecureRandom.hex}"
+        sandstorm_header(:user_id) || sandstorm_header(:tab_id)
       end
 
       info do

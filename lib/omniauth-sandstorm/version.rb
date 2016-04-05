@@ -16,6 +16,6 @@ require 'omniauth-sandstorm/version'
 require 'omniauth/strategies/sandstorm'
 module OmniAuth
   module Sandstorm
-    VERSION = '1.0.1'
+    VERSION = '1.1.0'
   end
 end
