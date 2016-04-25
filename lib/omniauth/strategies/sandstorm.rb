@@ -51,11 +51,11 @@ module OmniAuth
                      'they'
                    end
         {
-          name: sandstorm_header(:username),
-          nickname: sandstorm_header(:preferred_handle),
-          image: sandstorm_header(:user_picture),
-          urls: {
-            'User Pronouns': "https://pronoun.is/#{pronouns}",
+          :name => sandstorm_header(:username),
+          :nickname => sandstorm_header(:preferred_handle),
+          :image => sandstorm_header(:user_picture),
+          :urls => {
+            'User Pronouns' => "https://pronoun.is/#{pronouns}",
           },
         }
       end
