@@ -11,4 +11,5 @@ Gem::Specification.new do |s|
               %w(LICENSE README.md omniauth-sandstorm.gemspec)
   s.require_path = 'lib'
   s.add_runtime_dependency 'omniauth', '~> 1.0'
+  s.add_development_dependency 'bundler', '~> 1.11.2'
 end
