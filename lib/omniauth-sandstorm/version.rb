@@ -12,10 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'omniauth-sandstorm/version'
-require 'omniauth/strategies/sandstorm'
 module OmniAuth
   module Sandstorm
-    VERSION = '1.1.1'
+    VERSION = '1.1.2'
   end
 end
